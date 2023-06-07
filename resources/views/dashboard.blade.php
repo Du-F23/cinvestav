@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Welcome')
+@section('title', 'Dashboard')
 
 @section('content')
     <div class="row">
@@ -641,3 +641,4 @@
         </div>
     </div>
 @endsection
+
