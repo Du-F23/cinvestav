@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 
+@section('title', 'Login')
 @section('content')
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -12,11 +13,17 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control p_input text-white" name="email" id="email" value="{{old('email')}}">
+                                    <input type="text" class="form-control p_input text-white @error('email') is-invalid @enderror" name="email" id="email" value="{{old('email')}}">
+                                    @error('email')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" class="form-control p_input text-white" name="password" id="password">
+                                    <input type="password" class="form-control p_input text-white @error('password') is-invalid @enderror" name="password" id="password">
+                                    @error('password')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group d-flex align-items-center justify-content-between">
                                     <div class="form-check">

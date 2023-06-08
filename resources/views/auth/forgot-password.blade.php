@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 
+@section('title', 'Reset Password')
 @section('content')
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">

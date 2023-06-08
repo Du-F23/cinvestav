@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 
+@section('title', 'Confirm Password')
 @section('content')
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -7,7 +8,7 @@
                 <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
                     <div class="card col-lg-4 mx-auto">
                         <div class="card-body px-5 py-5">
-                            <h3 class="card-title text-left mb-3">Login</h3>
+                            <h3 class="card-title text-left mb-3">Confirm Password</h3>
                             <form method="POST" action="{{ route('password.confirm') }}">
                                 @csrf
                                 <div class="form-group">

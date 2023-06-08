@@ -112,10 +112,11 @@
                         <form method="post" action="{{ route('profile.changePicture') }}" class="forms-sample" enctype="multipart/form-data">
                             @csrf
                             @method('put')
-                            <div class="form-group">
+                            <div class="form-group w-100">
                                 <label for="img">Profile Picture</label>
                                 <input type="file" name="img" id="img"
-                                       class="form-control bg-dark text-white"
+                                       class="form-control bg-dark text-white @error('img') is-invalid @enderror border border-dark"
+                                        style="padding: 0.375rem 0.75rem; line-height: 1.5; border-radius: 0.25rem; font-size: 0.875rem; width: 100%; height: calc(1.5em + 0.75rem + 2px); color: #363455; background-color: #000000; background-clip: padding-box; border: 1px solid #343a40; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;"
                                         accept="image/png, image/jpeg, image/jpg">
                                 @error('img')
                                 <div class="text-danger">{{ $message }}</div>
@@ -133,8 +134,4 @@
                 </div>
         </div>
     </div>
-
-    <script type="text/javascript">
-
-    </script>
 @endsection
