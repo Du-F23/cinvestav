@@ -15,7 +15,11 @@
             @endif
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Proposals List</h4>
+                    @if(Auth::user()->role_id !== 3)
+                        <h4 class="card-title">Proposals List</h4>
+                    @else
+                        <h4 class="card-title">My Proposals List</h4>
+                    @endif
                     @if(Auth::user()->role_id === 3)
                         <div class="d-flex justify-content-end">
                             <a href="{{ route('proposals.create') }}" class="btn btn-primary mb-2">
@@ -33,19 +37,48 @@
                                 <th>Name of Project</th>
                                 <th>Description of Project</th>
                                 <th>Rama</th>
-                                <th>User</th>
+                                @if(Auth::user()->role_id !== 3)
+                                    <th>User</th>
+                                @endif
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                                 @foreach($proposals as $prop)
+                                    <tr class="table-dark">
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $prop->project->name }}</td>
                                     <td>{{ $prop->project->description }}</td>
                                     <td>{{ $prop->rama->name }}</td>
-                                    <td>{{ $prop->user->name }}</td>
-                                    <td>{{ $prop->status }}</td>
+                                    @if(Auth::user()->role_id !== 3)
+                                            <td>{{ $prop->user->name }}</td>
+                                    @endif
+                                    <td>
+                                        @if($prop->status === 0)
+                                            <span class="badge badge-warning">Pending</span>
+                                        @elseif($prop->status === 1)
+                                            <span class="badge badge-success">Approved</span>
+                                        @else
+                                            <span class="badge badge-danger">Rejected</span>
+                                        @endif
+                                    </td>
+                                        <td>
+                                            <a href="{{ route('proposals.show', $prop->id) }}" class="btn btn-facebook">
+                                                <i class="mdi mdi-eye btn-icon-prepend"></i>
+                                            </a>
+                                            @if(Auth::user()->id === $prop->user_id)
+                                                <a href="{{ route('proposals.edit', $prop->id) }}" class="btn btn-twitter">
+                                                    <i class="mdi mdi-pencil btn-icon-prepend"></i>
+                                                </a>
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal"
+                                                        onclick="deleteData({{ $prop->id }})">
+                                                    <i class="mdi mdi-delete btn-icon-prepend"></i>
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

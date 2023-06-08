@@ -16,7 +16,7 @@ class CheckVisorRole
             // Obtener el usuario autenticado
             $user = Auth::user();
             // Verificar el tipo de usuario (por ejemplo, role_id == 2 para el visor)
-            if ($user->role_id == 2) {
+            if ($user->role_id == 2 || $user->role_id == 1) {
                 // Usuario es visor continua con la solicitud
                 return $next($request);
             }

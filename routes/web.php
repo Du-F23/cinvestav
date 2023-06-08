@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('proposals', ProposalController::class);
     Route::put('/proposals/{proposal}/restore', [ProposalController::class, 'restore'])->name('proposals.restore');
     Route::delete('/proposals/{proposal}/forceDelete', [ProposalController::class, 'forceDelete'])->name('proposals.forceDelete');
+    Route::get('/proposals/{proposal}/download', [ProposalController::class, 'downloadFile'])->name('proposals.download');
+    Route::put('/proposals/{proposal}/evaluate', [ProposalController::class, 'evaluate'])->name('proposals.evaluateStore');
+
 
     Route::resource('evaluate-proposals', EvaluateProposal::class);
     Route::put('/evaluate-proposals/{evaluateProposal}/restore', [EvaluateProposal::class, 'restore'])->name('evaluate-proposals.restore');
