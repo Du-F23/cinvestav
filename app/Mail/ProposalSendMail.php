@@ -13,41 +13,29 @@ class ProposalSendMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
+    public $proposal;
+    public $project;
+    public $user;
+    public $rama;
+
+    public function __construct($proposal, $project, $user, $rama)
     {
-        //
+        $this->proposal = $proposal;
+        $this->project = $project;
+        $this->user = $user;
+        $this->rama = $rama;
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build(): ProposalSendMail
     {
-        return new Envelope(
-            subject: 'Proposal Send Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->view('email.assignedProposal')
+            ->subject('Proposal Assigned')
+            ->with([
+                'archive' => $this->proposal->archive,
+                'projectName' => $this->project->name,
+                'projectDescription' => $this->project->description,
+                'ramaName' => $this->rama->name,
+                'userName' => $this->user->name,
+            ]);
     }
 }

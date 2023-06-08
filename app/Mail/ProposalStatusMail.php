@@ -13,41 +13,32 @@ class ProposalStatusMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
+    public $proposal;
+    public $project;
+    public $user;
+    public $rama;
+    public $status;
+
+    public function __construct($proposal, $project, $user, $rama, $status)
     {
-        //
+        $this->proposal = $proposal;
+        $this->project = $project;
+        $this->user = $user;
+        $this->rama = $rama;
+        $this->status = $status;
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build(): ProposalStatusMail
     {
-        return new Envelope(
-            subject: 'Proposal Status Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->view('email.status')
+            ->subject('Proposal Status Report')
+            ->with([
+                'archive' => $this->proposal->archive,
+                'projectName' => $this->project->name,
+                'projectDescription' => $this->project->description,
+                'ramaName' => $this->rama->name,
+                'userName' => $this->user->name,
+                'status' => $this->status,
+            ]);
     }
 }

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ProposalSendMail;
+use App\Mail\ProposalStatusMail;
 use App\Models\Project;
 use App\Models\Proposal;
 use App\Models\Rama;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -54,6 +57,9 @@ class ProposalController extends Controller
         $request->file('archive')->storeAs('public', $proposal->archive);
 
         $proposal->save();
+
+        $prop=Proposal::where('id', $proposal->id)->with('user', 'project', 'rama')->first();
+        Mail::to($prop->user->email)->send(new ProposalSendMail($prop, $prop->project, $prop->user, $prop->rama));
 
         return redirect()->route('proposals.index')->with('status', 'Proposal created');
     }
@@ -127,6 +133,9 @@ class ProposalController extends Controller
         $proposal = Proposal::where('id', $id)->first();
         $proposal->status = $request->statusUpdate;
         $proposal->save();
+
+        $prop=Proposal::where('id', $proposal->id)->with('user', 'project', 'rama')->first();
+        Mail::to($prop->user->email)->send(new ProposalStatusMail($prop, $prop->project, $prop->user, $prop->rama, $prop->status));
 
 //        dd($proposal);
 
